@@ -63,3 +63,37 @@ select * from customers where city in ('Bhopal',"Indore");
 select * from customers where customer_name like "A%";
 -- 2. Case-insensitive search
 select * from customers where lower(customer_name) like 'a%';
+
+
+-- Retrieve all customers who live in Bhopal
+
+select * from customers where city = 'Bhopal';
+
+-- Get customers whose name is 'Neha'
+select * from customers where customer_name = "neha";
+
+-- Find customers whose customer_id is greater than 3
+select * from customers where customer_id > 3;
+
+-- Get customers who are not from Delhi
+select * from customers where city != 'Delhi';
+
+-- Retrieve customers whose customer_id is between 2 and 4
+select * from customers where customer_id between 2 and 4;
+select * from customers where customer_id > 2 and customer_id < 4;
+
+-- Get customers who live in Bhopal OR Indore
+select * from customers where city = "Indore" or city = "Bhopal";
+
+-- Retrieve customers who live in Delhi AND have id greater than 2
+select * from customers where city = 'Delhi' and customer_id > 2;
+
+-- Get customers whose name starts with 'P'
+select * from customers where customer_name like 'p%';
+
+-- Get customers whose city is in a given list (IN operator)
+select * from customers where city in ('Mumbai', 'Delhi');
+
+-- Get customers whose name does not start with 'A'
+select * from customers where customer_name not like 'A%';
+
