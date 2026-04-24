@@ -328,6 +328,62 @@ SELECT *
 FROM customers 
 ORDER BY LENGTH(customer_name) ASC;
 
+-- Retrieve 2 records starting from the 3rd row in products
+select * from products order by product_id limit 2 offset 2;
+
+-- Retrieve 3 records starting from the 5th row in sales
+select * from sales order by sale_id limit 3 offset 4;
+
+-- Skip first 2 records and retrieve next 2 from orders
+select * from orders order by order_id limit 2 offset 2;
+
+-- Retrieve the last 2 records from customers
+
+select * from customers order by customer_id desc limit 2;
+
+-- Retrieve the top 3 most expensive products (based on unit_price)
+SELECT product_name, unit_price
+FROM products
+ORDER BY unit_price DESC
+LIMIT 3;
+
+-- Retrieve the 2 cheapest products
+select * from products order by unit_price asc limit 2;
+
+-- Retrieve the latest 3 orders (based on order_date)
+select * from orders order by order_date
+limit 3;
+
+-- Retrieve the oldest 2 orders
+select * from orders order by order_date desc limit 2;
+
+-- Retrieve top 3 sales with highest quantity
+select * from sales order by quantity desc limit 3;
+
+/*------------------ coalesce----------------------*/
+-- Replace NULL customer names with 'Unknown'
+SELECT COALESCE(customer_name, 'Unknown') AS customer_name
+FROM customers;
+
+-- Replace NULL city with 'Not Provided'
+select coalesce(city, 'Not Provided') from customers;
+
+-- Show customer_name and city, replace both NULL values with default text
+SELECT 
+    COALESCE(customer_name, 'Unknown') AS customer_name,
+    COALESCE(city, 'Unknown City') AS city
+FROM customers;
+
+-- Show customer_name, if NULL then show city instead
+select coalesce(customer_name, city) from customers;
+SELECT COALESCE(customer_name, city) AS display_name
+FROM customers;
+
+-- Show city, if NULL then show 'India'
+select coalesce(city, 'India') from customers;
+
+
+
 
 
 
