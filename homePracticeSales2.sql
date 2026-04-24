@@ -197,7 +197,136 @@ OR both are NOT NULL
 select * from customers where customer_name is not null and city is not null;
 
 
+/*------------------------------------Like operator----------------------------------------*/
+-- Find customers whose name starts with 'A'
+select * from customers where customer_name like 'A%';
 
+-- Find customers whose name ends with 'a'
+select * from customers where customer_name like '%a';
+
+-- Find customers whose name contains 'i'
+
+select * from customers where customer_name like '%i%';
+
+-- Find customers whose city starts with 'B'
+select * from customers where city like 'B%';
+
+-- Find customers whose city ends with 'e'
+select * from customers where city like '%e';
+
+-- Find customers whose name contains 'a' anywhere
+select * from customers where customer_name like '%a%';
+
+-- Find customers whose name starts with 'R' and ends with 'l'
+select * from customers where customer_name like 'R%i';
+-- Find customers whose city contains 'o'
+select * from customers where city like '%o%';
+
+-- Find customers whose name does NOT contain 'a'
+select * from customers where customer_name not like '%a%';
+
+-- Find customers whose city does NOT start with 'D'
+
+select * from customers where customer_name not like 'D%';
+
+-- Find customers whose name has exactly 5 characters
+
+select * from customers where customer_name like '_____';
+
+-- Find customers whose name has exactly 4 characters
+select * from customers where customer_name like '____';
+
+-- Find customers whose name starts with 'A' and has 5 letters total
+select * from customers where customer_name like 'A____';
+
+-- Find customers whose city has exactly 6 characters
+select * from customers where city like '______';
+
+-- Find customers whose name contains 'a' and city starts with 'B'
+select * from customers where customer_name like 'A%' and city like 'B%';
+
+/*Find customers whose:
+
+name starts with 'A'
+OR city ends with 'e'*/
+
+select * from customers where city like '%e' or customer_name like 'A%';
+
+/*Find customers whose:
+
+name contains 'i'
+AND city contains 'o'*/
+
+select * from customers where customer_name like '%i%' and city like '%o%';
+
+/*Find customers whose:
+
+name does NOT start with 'P'
+AND does NOT end with 'a'*/
+
+SELECT * 
+FROM customers 
+WHERE customer_name NOT LIKE 'P%' 
+  AND customer_name NOT LIKE '%a';
+  
+/*Find customers whose name has:
+
+'a' as second character*/
+
+select * from customers where customer_name like '_a%';
+
+/*
+Find customers whose city has:
+
+'o' as second last character
+*/
+
+select * from customers where city like '_o%';
+
+
+-- Display all customers sorted by customer_name in ascending order
+select * from customers order by customer_name asc;
+
+-- Display all customers sorted by city in descending order
+
+select * from customers order by city desc;
+
+-- Display all customers sorted by customer_id in descending order
+
+select * from customers order by customer_id desc;
+
+/*Display all customers sorted by:
+
+city (ascending)
+then customer_name (ascending)*/
+
+select * from customers order by city asc, customer_name asc;
+
+/*
+Display all customers sorted by:
+
+city (descending)
+then customer_id (ascending)
+*/
+select * from customers order by city desc, customer_id asc;
+
+/*
+Display all customers sorted by customer_name
+👉 (Observe how NULL values are ordered)
+*/
+select * from customers order by customer_name;
+
+-- Display only customer_name and city, sorted by customer_name descending
+
+select customer_name,city from customers order by customer_name desc;
+
+SELECT * 
+FROM customers 
+ORDER BY (city IS NULL), city ASC;
+
+SELECT * 
+FROM customers 
+ORDER BY LENGTH(customer_name) ASC;
 
 
 
