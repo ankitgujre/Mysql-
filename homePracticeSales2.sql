@@ -11,6 +11,12 @@ INSERT INTO customers VALUES
 (4, 'Priya', 'Mumbai'),
 (5, 'Vikas', 'Pune');
 
+-- null practice 
+INSERT INTO customers VALUES
+(6, NULL, 'Bhopal'),
+(7, 'Ankit', NULL),
+(8, NULL, NULL);
+
 select * from customers; 
 
 create table products( product_id int, product_name varchar(90), category varchar(90), unit_price decimal(10,2));
@@ -96,4 +102,106 @@ select * from customers where city in ('Mumbai', 'Delhi');
 
 -- Get customers whose name does not start with 'A'
 select * from customers where customer_name not like 'A%';
+
+-- Retrieve customers whose city is NOT 'Bhopal' and NOT 'Indore'
+
+select * from customers where city not in ('Bhopal','Indore');
+select * from customers where city != 'Bhopal' and city != 'Indore';
+
+-- Find customers whose name contains letter 'a' anywhere
+select * from customers where customer_name like '%a%';
+
+-- Get customers whose name ends with 'a' AND city starts with 'M'
+select * from customers where customer_name like '%a' and city like 'M%';
+
+-- Retrieve customers whose customer_id is NOT between 2 and 4
+
+select * from customers where customer_id not between 2 and 4;
+
+-- Get customers whose city is either 'Delhi', 'Mumbai', or 'Pune' AND id > 2
+select * from customers where city in ('Delhi','Mumbai','Pune') and customer_id > 2;
+
+-- Find customers whose name has exactly 5 characters
+select * from customers where customer_name like '_____';
+
+-- Retrieve customers whose name does NOT contain letter 'i'
+select * from customers where customer_name not like '%i%';
+
+-- Get customers whose customer_id is even number
+select * from customers where customer_id % 2 = 0;
+
+-- Retrieve customers whose city is NULL
+
+select * from customers where city is null;
+
+-- Find customers whose name starts with 'A' OR ends with 'a'
+
+SELECT * FROM customers 
+WHERE customer_name LIKE 'A%' 
+OR customer_name LIKE '%a';
+
+-- Find all customers whose city is NULL
+select * from customers where city is null;
+
+-- Find all customers whose name is NULL
+select * from customers where customer_name is null;
+
+-- Find all customers where both name and city are NOT NULL
+
+select * from customers where customer_name is not null and city is not null;
+
+-- Find customers where either name OR city is NULL
+select * from customers where city is null or customer_name is null;
+
+-- Find customers whose city is NOT NULL AND not equal to 'Bhopal'
+
+select * from customers where city is not null and city != 'Bhopal';
+
+-- Find customers whose name is NULL OR city is 'Delhi'
+
+select * from customers where customer_name is null or city = 'Delhi';
+
+-- Count the number of customers whose city is NULL
+select count(customer_id) from customers where city is null;
+select count(*) from customers where city is null;
+
+-- Replace NULL values in customer_name with 'Unknown' (display only, do not update table)
+SELECT 
+    customer_id,
+    IFNULL(customer_name, 'Unknown') AS customer_name,
+    city
+FROM customers;
+
+SELECT 
+    customer_id,
+    COALESCE(customer_name, 'Unknown') AS customer_name,
+    city
+FROM customers;
+
+/*
+Find customers where:
+
+customer_name is NULL
+BUT city is NOT NULL
+*/
+
+select * from customers where city is not null and customer_name is null;
+
+/*
+Find customers where:
+
+both customer_name and city are NULL
+OR both are NOT NULL
+*/
+
+select * from customers where customer_name is not null and city is not null;
+
+
+
+
+
+
+
+
+
 
