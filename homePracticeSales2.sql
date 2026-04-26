@@ -384,9 +384,175 @@ select coalesce(city, 'India') from customers;
 
 
 
+-- Retrieve the first 3 records from the customers table
+select * from customers order by customer_id limit 3;
+
+ -- Retrieve the first 2 records from the products table
+ select * from products order by product_id limit 2;
+ 
+ -- Retrieve the first 4 records from the orders table
+ select * from orders order by order_id limit 4;
+ 
+ -- Retrieve only 5 rows from the sales table
+ select * from sales order by sale_id limit 5;
+ 
+ -- Retrieve only the first record from the customers table
+ select * from customers order by customer_id limit 1;
+ 
+ -- Retrieve the 2nd and 3rd records from the customers table
+ 
+ SELECT * 
+FROM customers 
+ORDER BY customer_id 
+LIMIT 2 OFFSET 1;
 
 
 
+/*------------------ coalesce----------------------*/
+-- Replace NULL customer names with 'Unknown'
+SELECT COALESCE(customer_name, 'Unknown') AS customer_name
+FROM customers;
 
+-- Replace NULL city with 'Not Provided'
+select coalesce(city, 'Not Provided') from customers;
+
+-- Show customer_name and city, replace both NULL values with default text
+SELECT 
+    COALESCE(customer_name, 'Unknown') AS customer_name,
+    COALESCE(city, 'Unknown City') AS city
+FROM customers;
+
+-- Show customer_name, if NULL then show city instead
+select coalesce(customer_name, city) from customers;
+SELECT COALESCE(customer_name, city) AS display_name
+FROM customers;
+
+-- Show city, if NULL then show 'India'
+select coalesce(city, 'India') from customers;
+
+/*--------------------------------ifnull---------------------------------*/
+-- Show all customers, but if customer_name is NULL, display 'Unknown'.
+
+select customer_id, ifnull(customer_name, "Unknown") from customers;
+
+-- Replace NULL city with default value
+select customer_name, ifnull(city, 'Not provided') from customers;
+
+-- If any product has NULL unit_price, show 0.
+SELECT 
+    product_id, 
+    product_name, 
+    IFNULL(unit_price, 0) AS unit_price
+FROM products;
+
+
+
+/*-------------------------------------ALTER -------------------------*/
+-- Add a new column email in customers.
+
+alter table customers add column (email varchar(50));
+desc customers;
+select * from customers;
+
+-- Add a new column phone in customers. 
+ALTER TABLE customers 
+ADD COLUMN phone VARCHAR(15);
+
+alter table customers modify phone varchar(20);
+
+-- Add a new column address in customers.
+alter table customers add column address varchar(90);
+
+-- Change customer_name size from varchar(90) to varchar(150).
+
+alter table customers modify customer_name varchar(150);
+
+-- Change city size from varchar(100) to varchar(50).
+alter table customers modify city varchar(50);
+
+--- Rename column customer_name to name.
+alter table customers rename column customer_name to name;
+
+-- Rename column city to customer_city.
+
+alter table customers rename column city to customer_city;
+
+-- Add primary key on customer_id.
+alter table customers add primary key(customer_id);
+desc customers;
+
+-- Add primary key on product_id
+alter table products add primary key(product_id);
+
+-- Add primary key on order_id
+alter table orders add primary key(order_id);
+
+-- Add primary key on sale_id.
+alter table sales add primary key(sale_id);
+
+-- Add foreign key in orders.customer_id referencing customers.customer_id.
+
+alter table orders add foreign key(customer_id) references customers(customer_id);
+desc customers;
+desc orders;
+desc products;
+
+-- Add foreign key in sales.order_id referencing orders.order_id.
+
+alter table sales add foreign key(order_id) references orders(order_id);
+
+-- Add foreign key in sales.product_id referencing products.product_id.
+alter table sales add foreign key(product_id) references products(product_id);
+
+-- Add NOT NULL constraint on product_name.
+alter table products modify product_name varchar(50) not null;
+
+-- Add NOT NULL constraint on unit_price.
+alter table products modify unit_price decimal(10,2) not null;
+
+-- Add default value 'General' to products.category.
+
+ALTER TABLE products 
+ALTER COLUMN category SET DEFAULT 'General';
+select * from products;
+
+-- Rename table customers to customer_details.
+
+rename table customers to customer_details;
+select * from customer_details;
+
+
+
+/*           group by          */
+-- Count total customers city-wise.
+select customer_city, count(*) from customer_details group by customer_city;
+
+-- Count total customers including NULL cities.
+select customer_city, count(*) from customer_details group by customer_city; 
+
+-- Count how many customers have NULL names group-wise by city.
+SELECT customer_city, COUNT(*) AS null_name_count
+FROM customer_details
+WHERE name IS NULL
+GROUP BY customer_city;
+
+-- Count total products category-wise.
+select product_name, count(*) from products group by product_name;
+
+-- Find average price category-wise.
+select category, avg(unit_price) from products group by category;
+
+-- Find total quantity sold product-wise.
+select sum(quantity) from sales group by product_id;
+
+SELECT p.product_name, SUM(s.quantity) AS total_quantity
+FROM sales s
+JOIN products p ON s.product_id = p.product_id
+GROUP BY p.product_name;
+
+-- Find total quantity sold per order_id.
+SELECT order_id, SUM(quantity) AS total_quantity
+FROM sales
+GROUP BY order_id;
 
 
