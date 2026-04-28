@@ -556,3 +556,98 @@ FROM sales
 GROUP BY order_id;
 
 
+/*-------------------------------------Inner join------------------------------------*/
+
+-- Show all orders with customer names.
+
+show tables;
+select * from customer_details;
+select * from orders;
+select * from products;
+select * from sales;
+
+select o.*, c.name from customer_details c join orders o on c.customer_id = o.customer_id;
+
+-- Show order_id, order_date, customer_name, and city.
+select o.order_id, o.order_date, c.name, c.customer_city from customer_details c join orders o on c.customer_id = o.customer_id;
+
+-- Show all sales with product names.
+select s.*,p.product_name from products p join sales s on p.product_id = s.product_id;
+
+-- Show sale_id, product_name, quantity, and unit_price.
+select s.sale_id, p.product_name, s.quantity, p.unit_price from sales s join products p on p.product_id = s.product_id;
+
+-- Show order details with customer name and order date.
+select o.*, c.name from customer_details c join orders o on c.customer_id = o.customer_id;
+
+/* ---------------------------------------Two tables join--------------------------------------------------*/
+
+-- Find all customers who placed orders.
+select c.* , o.* from customer_details c join orders o on c.customer_id = o.customer_id;
+
+-- Find all products that were sold.
+select p.* from products p join sales s on s.product_id = p.product_id;
+
+-- Show customer names with their order IDs.
+select c.name, o.order_id from orders o join customer_details c on c.customer_id = o.customer_id;
+
+-- Show product names with their sold quantities.
+
+select p.product_name, s.quantity from sales s join products p on p.product_id = s.product_id;
+
+-- Show order_id and product_id from sales with product_name.
+select p.product_name,od.order_id, p.product_id from sales s inner join products p join orders od on s.product_id = p.product_id;
+
+SELECT 
+    s.order_id,
+    s.product_id,
+    p.product_name
+FROM 
+    sales s
+JOIN 
+    products p
+ON 
+    s.product_id = p.product_id;
+    
+    
+-- Show full sales report: customer_name, city, order_id, order_date, product_name, category, quantity, unit_price.
+SELECT 
+    c.name,
+    c.customer_city,
+    o.order_id,
+    o.order_date,
+    p.product_name,
+    p.category,
+    s.quantity,
+    p.unit_price
+FROM 
+    customer_details c
+JOIN 
+    orders o
+ON 
+    c.customer_id = o.customer_id
+JOIN 
+    sales s
+ON 
+    o.order_id = s.order_id
+JOIN 
+    products p
+ON 
+    s.product_id = p.product_id;
+
+
+-- Calculate total amount for each sale using quantity * unit_price.
+select s.quantity, p.unit_price, sum(s.quantity * p.unit_price) from products as p join sales s on p.product_id = s.product_id
+group by p.product_name;
+
+SELECT 
+    s.sale_id,
+    s.order_id,
+    p.product_name,
+    s.quantity,
+    p.unit_price,
+    (s.quantity * p.unit_price) AS total_amount
+FROM 
+    sales s
+JOIN 
+    products p ON s.product_id = p.product_id;
