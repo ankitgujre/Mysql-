@@ -651,3 +651,34 @@ FROM
     sales s
 JOIN 
     products p ON s.product_id = p.product_id;
+    
+/*--------------------------LEFT JOIN Practice Questions------------------------------------------*/
+-- LEFT JOIN Practice Questions
+-- 1. Show all customers and their orders (even if no order exists)
+
+select c.*, o.*  from customer_details c left join orders o on c.customer_id = o.customer_id; 
+
+-- Show all customers with order dates (include customers with no orders)
+
+select c.*, o.order_date from customer_details c left join orders o on c.customer_id = o.customer_id;
+
+-- Show all customers with their orders (even if they have no orders).
+SELECT 
+    c.customer_id,
+    c.name,
+    o.order_id,
+    o.order_date
+FROM 
+    customer_details c
+LEFT JOIN 
+    orders o
+ON 
+    c.customer_id = o.customer_id;
+    
+-- Display customer_name and order_id using LEFT JOIN.
+select c.name, o.order_id from
+customer_details c left join orders o on c.customer_id = o.customer_id;
+
+-- Show all customers along with their order_date.
+
+select c.*, o.order_date from customer_details c left join orders o on c.customer_id = o.customer_id;
